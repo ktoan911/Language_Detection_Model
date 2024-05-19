@@ -19,7 +19,7 @@ class Data:
 
     def label_encode(self, train_dataset, test_dataset):
         label2id = {value: index for index, value in enumerate(
-            self.df_train["label"].unique())}
+            self.df_train["labels"].unique())}
         id2label = {v: k for k, v in label2id.items()}
 
         def encode_labels(example):

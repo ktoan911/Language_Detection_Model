@@ -1,6 +1,4 @@
 from transformers import (TrainingArguments, Trainer)
-from argparse import ArgumentParser
-import os
 
 
 class Train:
@@ -41,4 +39,3 @@ class Train:
         )
         trainer.train()
         return trainer
-
