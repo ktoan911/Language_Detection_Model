@@ -55,9 +55,9 @@ if __name__ == '__main__':
 
     # Khởi tạo mô hình
     model_generator = model.Model(
-        model_name=args.model_name, num_labels=len(label2id))
+        base_model_name=args.model_name, num_labels=len(label2id))
     model = model_generator.get_peft_model(
-        lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout, lora_r=args.lora_r, bias='none')
+        label2id, id2label, lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout, lora_r=args.lora_r, bias='none')
 
     # accuracy
     metric = load_metric("accuracy")

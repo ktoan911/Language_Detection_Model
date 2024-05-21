@@ -3,13 +3,16 @@ from peft import LoraConfig, get_peft_model
 
 
 class Model:
-    def __init__(self, model_name, num_labels):
-        self.model_name = model_name
+    def __init__(self, base_model_name, num_labels):
+        self.model_name = base_model_name
         self.num_labels = num_labels
 
-    def get_model(self):
+    def get_model(self, label2id, id2label):
         model = AutoModelForSequenceClassification.from_pretrained(
-            self.model_name, num_labels=self.num_labels, ignore_mismatched_sizes=True)
+            self.model_name, num_labels=len(label2id),
+            label2id=label2id,
+            id2label=id2label,
+            ignore_mismatched_sizes=True)
         model.config.use_cache = False
         model.config.pretraining_tp = 1
 
@@ -24,9 +27,9 @@ class Model:
             task_type='CLASSIFICATION',
         )
 
-    def get_peft_model(self, lora_alpha, lora_dropout, lora_r, bias='none'):
+    def get_peft_model(self, label2id, id2label, lora_alpha, lora_dropout, lora_r, bias='none'):
         model = get_peft_model(
-            self.get_model(),
+            self.get_model(label2id, id2label),
             self.peft_config(lora_alpha, lora_dropout, lora_r, bias)
         )
         return model
